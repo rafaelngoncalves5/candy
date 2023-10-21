@@ -1,4 +1,10 @@
 <?php
+require 'src\db.php';
+
+/*
+$result = $db->query('SELECT * FROM users');
+echo print_r($result->fetch_all(MYSQLI_ASSOC));
+*/
 
 class FormValidator
 {
@@ -16,7 +22,21 @@ class FormValidator
                 // Next
                 // Valida no BD
                 #...
-                return $username;
+                global $db;
+                // Armazenando os dados na array result
+                // 1 - Prepara a query com o placeholder ?
+                $stmt = $db->prepare("SELECT username FROM users WHERE username = ?");
+                // 2 - Binda os atributos do placeholder
+                $stmt->bind_param("s", $username);
+                // 3 - Executa a consulta
+                $stmt->execute();
+
+                // 4 - Armazena os valores numa variável
+                $result = $stmt->get_result();
+                // 5 - Dá fetch no $result
+                # $tables = $result->fetch_assoc();
+                
+                return $result->num_rows >= 1 ? "\nErro: usuário já existe!" : $username;
 
             } else {
 
@@ -48,7 +68,25 @@ class FormValidator
 
                 // Next
                 if ($email === $confirm_email) {
-                    return $email;
+
+                    // Next
+                    // Existe no bd?
+                    
+                    // 1 - Prepara uma consulta
+                    global $db;
+                    $stmt = $db->prepare("SELECT email FROM users WHERE email = ?");
+
+                    // 2 - Binda os valores
+                    $stmt->bind_param("s", $email);
+
+                    // 3 - Executa a query
+                    $stmt->execute();
+
+                    // 4 - Armazena o resultado
+                    $result = $stmt->get_result();
+                    
+                    return $result->num_rows >= 1? "Erro: email já existe!" : $email;
+                    
                 } else {
                     return "Erro: Os emails não são iguais!";
                 }
@@ -114,12 +152,12 @@ class FormValidator
 }
 
 // Testando email
-#echo FormValidator::validate_email("johnd@mail.com", "john@mail.com");
+#echo FormValidator::validate_email("rafaelngoncalves5@outlook.com", "rafaelngoncalves5@outlook.com");
 
 // Testando senha
 #echo FormValidator::validate_password("null123456A", "null123456A");
 
 // Testando username
-# echo FormValidator::validate_username("klaus1");
+#echo FormValidator::validate_username("rafaeln5");
 
 ?>

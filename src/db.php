@@ -11,10 +11,10 @@ $database = "database_name";
 $db = new mysqli($hostname, $user, $password, $database);
 
 if ($db->connect_errno) {
-    echo "<!-- Oops... Tivemos um erro ao tentar nos conectar ao MySQL! Erro -> $db->connect_error -->";
+    echo "<!-- Oops... Tivemos um erro ao tentar nos conectar ao MySQL! Erro -> $db->connect_error -->\n";
     exit();
 }
-echo "<!-- Conectado com sucesso no MySQL! -->";
+echo "\n\n<!-- Conectado com sucesso no MySQL! -->\n\n";
 
 /*
 
@@ -35,6 +35,6 @@ echo count((array) $result);
 
 */
 
-$db->close();
+# $db->close();
 
 ?>
