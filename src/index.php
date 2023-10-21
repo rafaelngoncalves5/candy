@@ -28,14 +28,18 @@ include 'db.php';
     <meta name="author" content="Rafael N">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Linking CSS -->
+    <link rel="stylesheet" href="./styles/globals.css" />
+
     <title>Candy - Behold PHP!</title>
 </head>
 
 <html>
 
 <body>
-    <h1>Olá mundo, eu sou o
-        <?= "<strong style='color: #777BB3'>PHP!</strong>"; ?>
+    <h1>BEHOLD THE MIGHTY
+        <br />
+        <?= "<strong class='title' style='color: var(--php-dark)'>PHP!</strong>"; ?>
     </h1>
 
     <!-- Aqui vem os formulários, amigo -->

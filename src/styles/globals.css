@@ -1,0 +1,18 @@
+/* Variables */
+:root {
+    --php-light: #AEB2D5;
+    --php-dark: #777BB3;
+    --php-darker: #484C89;
+}
+
+/* Resets and global rules */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* More specific stuff */
+.title {
+    font-size: 10vh;
+}
