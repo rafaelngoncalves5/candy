@@ -1,19 +1,17 @@
 <?php
-require 'src\db.php';
-
-/*
-$result = $db->query('SELECT * FROM users');
-echo print_r($result->fetch_all(MYSQLI_ASSOC));
-*/
 
 class FormValidator
 {
+    static string $username_error = "";
+    static string $email_error = "";
+    static string $password_error = "";
 
     // Username validation
-    static function validate_username(string $username): string
+    static function validate_username(string $username, object $db): bool
     {
-        if (isset($_POST['username'])) {
-            return "Erro: nome de usuário inválido!";
+        if (strlen($username) <= 4) {
+            self::$username_error = 'Erro: nome de usuário inválido!';
+            return false;
         } else {
             // Based on: ^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$
             // Once again, thanks to: https://regexr.com
@@ -21,8 +19,6 @@ class FormValidator
             if (preg_match($username_regex, $username)) {
                 // Next
                 // Valida no BD
-                #...
-                global $db;
                 // Armazenando os dados na array result
                 // 1 - Prepara a query com o placeholder ?
                 $stmt = $db->prepare("SELECT username FROM users WHERE username = ?");
@@ -35,32 +31,32 @@ class FormValidator
                 $result = $stmt->get_result();
                 // 5 - Dá fetch no $result
                 # $tables = $result->fetch_assoc();
-                
-                return $result->num_rows >= 1 ? "\nErro: usuário já existe!" : $username;
+
+                if ($result->num_rows >= 1) {
+                    self::$username_error = "\nErro: usuário já existe!";
+                    return false;
+                }
+                self::$username_error = "";
+                return true;
 
             } else {
 
-                return
-
-                    /*
-                        Obs: numa aplicação em produção, seria interessante
-                        tratar os erros um a um, mas como não é o caso, usarei
-                        apenas uma string com o caso geral!
-                    */
-                    "
+                self::$username_error = "
                     Erro: formato inválido, seu nome de usuário precisa de: \n\n
-                     - Pelo menos 1 letra minúscula
-                     - Pelo menos 1 número
-                     - Não pode ter símbolos especiais (#?!@$ %^&*-)
-                     - Não podem ter espaços
-                     - Não podem ter letras maiúsculas
-                    ";
+                     - Pelo menos 1 letra minúscula\n
+                     - Pelo menos 1 número\n
+                     - Não pode ter símbolos especiais (#?!@$ %^&*-)\n
+                     - Não podem ter espaços\n
+                     - Não podem ter letras maiúsculas\n";
+
+                return false;
+
             }
         }
     }
 
     // Email validation
-    static function validate_email(string $email, string $confirm_email): string
+    static function validate_email(string $email, string $confirm_email, object $db): bool
     {
         if (isset($email)) {
             // Next
@@ -71,9 +67,8 @@ class FormValidator
 
                     // Next
                     // Existe no bd?
-                    
+
                     // 1 - Prepara uma consulta
-                    global $db;
                     $stmt = $db->prepare("SELECT email FROM users WHERE email = ?");
 
                     // 2 - Binda os valores
@@ -84,24 +79,35 @@ class FormValidator
 
                     // 4 - Armazena o resultado
                     $result = $stmt->get_result();
-                    
-                    return $result->num_rows >= 1? "Erro: email já existe!" : $email;
-                    
+
+                    self::$email_error = "Erro: email já existe!";
+
+                    if ($result->num_rows >= 1) {
+                        self::$email_error;
+                        return false;
+                    } else {
+                        self::$email_error = "";
+                        return true;
+                    }
+
                 } else {
-                    return "Erro: Os emails não são iguais!";
+                    self::$email_error = "Erro: Os emails não são iguais!";
+                    return false;
                 }
 
             } else {
-                return "Erro: email inválido!";
+                self::$email_error = "Erro: email inválido!";
+                return false;
             }
         } else {
-            return "Erro: email inválido!";
+            self::$email_error = "Erro: email inválido!";
+            return false;
         }
     }
 
     // Password validation
     // Receives a password, validates it, and returns a hash
-    static function validate_password(string $password, string $confirm_password): string
+    static function validate_password(string $password, string $confirm_password, object $db): bool
     {
         // Created with the marvelous help of: https://regexr.com/
         $password_regex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/";
@@ -110,7 +116,8 @@ class FormValidator
 
             // Next
             if (strlen($password) <= 6) {
-                return "Erro: sua senha é muito curta!";
+                self::$password_error = "Erro: sua senha é muito curta!";
+                return false;
             } else {
                 //Next
                 if (preg_match($password_regex, $password)) {
@@ -122,9 +129,13 @@ class FormValidator
                         // Verifies hashed version with -> password_verify($password, $hash)
                         # return password_verify($password, $hash) ? ":)" : ";(";
 
-                        return $hash;
+                        // Cleans error message
+                        self::$password_error = "";
+                        return true;
+
                     } else {
-                        return "Erro: as senhas precisam ser iguais!";
+                        self::$password_error = "Erro: as senhas precisam ser iguais!";
+                        return false;
                     }
 
                 } else {
@@ -134,20 +145,30 @@ class FormValidator
                     tratar os erros um a um, mas como não é o caso, usarei
                     apenas uma string com o caso geral!
                     */
-                    return
-                        "
+                    self::$password_error = "
                     Erro: formato inválido, sua senha precisa de: \n\n
                      - Pelo menos 1 caracter minúsculo\n 
                      - Pelo menos 1 caracter maiúsculo\n
                      - Pelo menos 1 número\n
                      - Pelo menos 8 caracteres\n";
+                    return false;
                 }
 
             }
 
         } else {
-            return "Erro: senha inválida";
+            self::$password_error = "Erro: senha inválida";
+            return false;
         }
+    }
+
+    // Este método verifica se todas as funções estão corretas e envia os dados ao BD
+    static function all_valid(bool $password_ops, bool $email_ops, bool $username_ops)
+    {
+        if ($password_ops && $email_ops && $username_ops) {
+            return true;
+        }
+        return false;
     }
 }
 

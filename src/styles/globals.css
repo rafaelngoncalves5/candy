@@ -121,3 +121,11 @@ form label, input {
     75% { background-color: var(--php-light); color: var(--php-dark)}
 }
 */
+
+.error-msg {
+    color: red;
+    font-size: large;
+    margin: 1rem 0;
+    max-width: fit-content;
+    overflow: hidden;
+}
