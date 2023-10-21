@@ -12,7 +12,53 @@
     padding: 0;
 }
 
+body {
+    font-family: sans-serif, Verdana, Geneva, Tahoma;
+}
+
+a {
+    border: 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+strong {
+    color: var(--php-darker);
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+}
+
+.header p {
+    font-weight: bold;
+}
+
 /* More specific stuff */
 .title {
     font-size: 10vh;
+}
+
+ul {
+    margin: 1rem;
+    background-color: var(--php-light);
+    font-size: x-large;
+    list-style: none;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    /* Display and positioning */
+    display: flex;
+    flex-direction: column;
+}
+
+ul li {
+    margin: 1rem 0;
+}
+
+ul li:hover {
+    text-decoration: underline;
+    color:  var(--php-darker);
 }

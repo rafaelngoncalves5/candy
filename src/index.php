@@ -37,13 +37,26 @@ include 'db.php';
 <html>
 
 <body>
-    <h1>BEHOLD THE MIGHTY
-        <br />
-        <?= "<strong class='title' style='color: var(--php-dark)'>PHP!</strong>"; ?>
-    </h1>
+    <main>
+        <div class="header">
+            <h1>BEHOLD THE MIGHTY</h1>
 
-    <!-- Aqui vem os formulários, amigo -->
-    ...
+            <?= "<h2 class='title' style='color: var(--php-dark)'>PHP!</h2>"; ?>
+
+            <p>List of pages:</p>
+        </div>
+
+        <ul>
+            <li>
+                <a href="./auth/register.php">Register -> Register a new user <strong>(FR-01)</strong></a>
+            </li>
+
+            <!-- Horizontal rule for each new link -->
+            <hr />
+
+        </ul>
+    </main>
+
 </body>
 
 </html>
