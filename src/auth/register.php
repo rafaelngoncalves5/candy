@@ -1,5 +1,16 @@
 <?php
-include 'db.php';
+include '../db.php';
+
+$username = null;
+$email = null;
+$confirm_email = null;
+$password = null;
+$confirm_password = null;
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = preg_replace("[\s\S]","", $_POST["username"]);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -33,9 +44,23 @@ include 'db.php';
 
         </ul>
 
-        <form>
-            ...
+        <!-- Form -->
+        <form method="post" action="register.php">
+
+            <!-- Email -->
+            <label for="username">Username:</label>
+            <input name="username" id="username" value="<?php echo $username; ?>"></input>
+
+            <button type="submit" class="primary-btn">Submit</button>
+
         </form>
+
+        <p>
+            Received data -> <?=print_r($_POST);?>
+
+            Username -> <?=$username;?>
+        </p>
+
     </main>
 
 </body>
