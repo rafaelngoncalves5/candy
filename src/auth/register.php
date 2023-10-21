@@ -8,7 +8,7 @@ $password = null;
 $confirm_password = null;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = preg_replace("[\s\S]","", $_POST["username"]);
+    $username = preg_replace("[\s\S]", "", $_POST["username"]);
 }
 
 ?>
@@ -47,18 +47,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <!-- Form -->
         <form method="post" action="register.php">
 
-            <!-- Email -->
+            <!-- Username -->
             <label for="username">Username:</label>
             <input name="username" id="username" value="<?php echo $username; ?>"></input>
+
+            <!-- Email -->
+            <label for="email">Email:</label>
+            <input name="email" id="email" type="email"></input>
 
             <button type="submit" class="primary-btn">Submit</button>
 
         </form>
 
         <p>
-            Received data -> <?=print_r($_POST);?>
-
-            Username -> <?=$username;?>
+            Received data ->
+            <?= print_r($_POST); ?>
         </p>
 
     </main>
