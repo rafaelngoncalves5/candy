@@ -1,0 +1,18 @@
+Expressões regulares utilizadas:
+
+- Regex extremo: ^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$
+
+- Regex de nome de usuário: "/^(?=.*?[a-z])(?=.*?[0-9])(?!.*?[A-Z])(?!.*?[#?!@$ %^&*-])/";
+                     - Pelo menos 1 letra minúscula
+                     - Pelo menos 1 número
+                     - Não pode ter símbolos especiais (#?!@$ %^&*-)
+                     - Não podem ter espaços
+                     - Não podem ter letras maiúsculas
+
+- Regex de senha: "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/"
+                     - Pelo menos 1 caracter minúsculo\n 
+                     - Pelo menos 1 caracter maiúsculo\n
+                     - Pelo menos 1 número\n
+                     - Pelo menos 8 caracteres\n"
+
+Feitos com a grandíssima ajuda do: https://regexr.com

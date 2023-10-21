@@ -122,4 +122,4 @@ class FormValidator
 // Testando username
 # echo FormValidator::validate_username("klaus1");
 
-; ?>
+?>
