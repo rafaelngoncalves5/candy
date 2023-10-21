@@ -68,6 +68,6 @@ class FormValidator
 # echo Validator::validate_email(null);
 
 // Testando senha
-echo Validator::validate_password("null123456A");
+echo FormValidator::validate_password("null123456A");
 
 ; ?>
