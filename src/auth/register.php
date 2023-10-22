@@ -28,10 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Se estiver tudo ok:
     if ($is_valid) {
         // Execute suas queries aqui!
-        // ...
+        $query = $db->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+        $query->bind_param("sss", $username, $email, $password);
+        $query->execute();
+
+        echo "User $username created with success! Redirecting...";
 
         // Por fim, redirecione o usuário
-        header("Location: login.html");
+        header("Location: login.php");
     }
 }
 
