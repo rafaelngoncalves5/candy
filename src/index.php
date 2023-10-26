@@ -51,6 +51,10 @@ include 'db.php';
                 <a href="./auth/register.php">Register -> Register a new user <strong>(FR-01)</strong></a>
             </li>
 
+            <li>
+                <a href="./auth/login.php">Register -> Login an user <strong>(FR-02)</strong></a>
+            </li>
+
             <!-- Horizontal rule for each new link -->
             <hr />
 

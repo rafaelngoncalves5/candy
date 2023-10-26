@@ -106,7 +106,6 @@ class FormValidator
     }
 
     // Password validation
-    // Receives a password, validates it, and returns a hash
     static function validate_password(string $password, string $confirm_password, object $db): bool
     {
         // Created with the marvelous help of: https://regexr.com/
@@ -123,11 +122,6 @@ class FormValidator
                 if (preg_match($password_regex, $password)) {
                     // Next
                     if ($password === $confirm_password) {
-
-                        // Hash that
-                        $hash = password_hash($password, PASSWORD_DEFAULT);
-                        // Verifies hashed version with -> password_verify($password, $hash)
-                        # return password_verify($password, $hash) ? ":)" : ";(";
 
                         // Cleans error message
                         self::$password_error = "";

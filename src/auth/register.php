@@ -29,7 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($is_valid) {
         // Execute suas queries aqui!
         $query = $db->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-        $query->bind_param("sss", $username, $email, $password);
+        // Hash that
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        
+        // Verifies hashed version with -> password_verify($password, $hash)
+        # return password_verify($password, $hash) ? ":)" : ";(";
+        $query->bind_param("sss", $username, $email, $hash);
         $query->execute();
 
         echo "User $username created with success! Redirecting...";
@@ -77,38 +82,40 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <!-- Username -->
             <label for="username">Username:</label>
-            <input value="<?php echo $username;?>" name="username" id="username" value="<?php echo $username; ?>"></input>
-            <span class="error-msg"><?=FormValidator::$username_error;?></span>
+            <input value="<?php echo $username; ?>" name="username" id="username"
+                value="<?php echo $username; ?>"></input>
+            <span class="error-msg">
+                <?= FormValidator::$username_error; ?>
+            </span>
 
             <!-- Email -->
             <label for="email">Email:</label>
-            <input required value="<?php echo $email;?>" name="email" id="email" type="email"></input>
-            <span class="error-msg"><?=FormValidator::$email_error;?></span>
+            <input required value="<?php echo $email; ?>" name="email" id="email" type="email"></input>
+            <span class="error-msg">
+                <?= FormValidator::$email_error; ?>
+            </span>
 
             <!-- Confirm Email -->
             <label for="confirm-email">Confirm email:</label>
-            <input required value="<?php echo $confirm_email;?>" name="confirm_email" id="confirm-email" type="email"></input>
+            <input required value="<?php echo $confirm_email; ?>" name="confirm_email" id="confirm-email"
+                type="email"></input>
 
             <!-- Password -->
             <label for="password">Password:</label>
-            <input value="<?php $password;?>" name="password" id="password" type="password"></input>
-            <span class="error-msg"><?=FormValidator::$password_error;?></span>
+            <input value="<?php $password; ?>" name="password" id="password" type="password"></input>
+            <span class="error-msg">
+                <?= FormValidator::$password_error; ?>
+            </span>
 
             <!-- Confirm password -->
             <label for="confirm-password">Confirm password:</label>
-            <input value="<?php echo $confirm_password;?>" name="confirm_password" id="password" type="password"></input>
+            <input value="<?php echo $confirm_password; ?>" name="confirm_password" id="password"
+                type="password"></input>
 
             <button type="submit" class="primary-btn">Submit</button>
 
         </form>
 
-        <p>
-            Received data ->
-            <?= print_r($_POST); ?>
-        </p>
-        <h1>
-            <?=$is_valid;?>
-        </h1>
     </main>
 
 </body>
