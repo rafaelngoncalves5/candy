@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // ...
 
         } else {
-            $error = "Erro: a senha $user_password não é igual a senha $password, amigo!";
+            $error = "Erro: usuário ou senha incorreto(s)!";
 
         }
 
@@ -77,13 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="username">Username:</label>
             <input value="<?php echo $username; ?>" name="username" id="username"
                 value="<?php echo $username; ?>"></input>
-            <span class="error-msg">
-                <?= $error; ?>
-            </span>
 
             <!-- Password -->
             <label for="password">Password:</label>
             <input value="<?php $password; ?>" name="password" id="password" type="password"></input>
+
             <span class="error-msg">
                 <?= $error; ?>
             </span>
