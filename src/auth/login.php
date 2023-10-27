@@ -23,10 +23,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 2 - Testa se a password está correta
         if (password_verify($password, $user_password['password'])) {
             // 3 - Completar o login
-            // ...
+            // 3.1 - Cria a session
+            session_start();
+
+            // 3.2 - Salva os dados relevantes na session
+            $_SESSION['username'] = $username;
+            $_SESSION['is_logged'] = true;
 
             // 4 - Redirecionar o usuário
-            // ...
+            header("location:../index.php");
 
         } else {
             $error = "Erro: usuário ou senha incorreto(s)!";
@@ -53,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Linking CSS -->
     <link rel="stylesheet" href="../styles/globals.css" />
 
-    <title>Candy - Register</title>
+    <title>Candy - Login</title>
 </head>
 
 <html>
@@ -63,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="header">
             <h1>BEHOLD THE MIGHTY</h1>
 
-            <?= "<h2 class='title' style='color: var(--php-dark)'>PHP!</h2>"; ?>
+            <?= "<h2 class='title' style='color: var(--php-dark)'><a href='/'>PHP!</a></h2>"; ?>
 
             <p>Login:</p>
         </div>
@@ -89,15 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" class="primary-btn">Submit</button>
 
         </form>
-
-        <p>
-            <!-- Remover isso aqui, depois... -->
-            <?php
-            echo "<p>We've received a password of => $password</p>";
-            echo "<p>We've received a username of => $username</p>";
-            echo print_r($error);
-            ?>
-        </p>
     </main>
 
 </body>

@@ -5,7 +5,7 @@
     --php-darker: #484C89;
 
     /* Material's box shadow */
-    --material-bs: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    --material-bs: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 /* Resets and global rules */
@@ -64,7 +64,7 @@ ul li {
 
 ul li:hover {
     text-decoration: underline;
-    color:  var(--php-darker);
+    color: var(--php-darker);
 }
 
 /* Forms */
@@ -94,7 +94,8 @@ form input {
     padding: 4px;
 }
 
-form label, input {
+form label,
+input {
     margin-top: 1rem
 }
 

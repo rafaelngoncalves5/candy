@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $query = $db->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
         // Hash that
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        
+
         // Verifies hashed version with -> password_verify($password, $hash)
         # return password_verify($password, $hash) ? ":)" : ";(";
         $query->bind_param("sss", $username, $email, $hash);
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo "User $username created with success! Redirecting...";
 
         // Por fim, redirecione o usuário
-        header("Location: login.php");
+        header("location:login.php");
     }
 }
 
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="header">
             <h1>BEHOLD THE MIGHTY</h1>
 
-            <?= "<h2 class='title' style='color: var(--php-dark)'>PHP!</h2>"; ?>
+            <?= "<h2 class='title' style='color: var(--php-dark)'><a href='/'>PHP!</a></h2>"; ?>
 
             <p>Register a new user:</p>
         </div>
