@@ -3,6 +3,9 @@
     --php-light: #AEB2D5;
     --php-dark: #777BB3;
     --php-darker: #484C89;
+
+    /* Material's box shadow */
+    --material-bs: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 /* Resets and global rules */
@@ -12,7 +15,118 @@
     padding: 0;
 }
 
+body {
+    font-family: sans-serif, Verdana, Geneva, Tahoma;
+}
+
+a {
+    border: 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+strong {
+    color: var(--php-darker);
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+}
+
+.header p {
+    font-weight: bold;
+}
+
 /* More specific stuff */
 .title {
     font-size: 10vh;
+}
+
+/* Lists */
+ul {
+    margin: 1rem;
+    background-color: var(--php-light);
+    font-size: x-large;
+    list-style: none;
+    padding: 1rem;
+    border-radius: 1rem;
+
+    /* Display and positioning */
+    display: flex;
+    flex-direction: column;
+}
+
+ul li {
+    margin: 1rem 0;
+}
+
+ul li:hover {
+    text-decoration: underline;
+    color: var(--php-darker);
+}
+
+/* Forms */
+form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: var(--php-light);
+    /* Use box shadow instead
+    border: 2px solid black;
+    */
+    box-shadow: var(--material-bs);
+    padding: 2rem;
+    margin: 0 2rem;
+}
+
+form label {
+    font-size: xx-large;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+form input {
+    max-width: 50%;
+    border-radius: 1.5rem;
+    font-size: large;
+    padding: 4px;
+}
+
+form label,
+input {
+    margin-top: 1rem
+}
+
+/* Buttons */
+.primary-btn {
+    padding: 5px;
+    box-shadow: var(--material-bs);
+    font-size: large;
+    max-width: 15vh;
+    cursor: pointer;
+    margin: 1rem 0;
+    background-color: var(--php-darker);
+    color: snow;
+    font-weight: bold;
+}
+
+/*
+.primary-btn:hover {
+    animation: 2s buttonhover infinite ease-in-out;
+}
+
+@keyframes buttonhover {
+    50% { background-color: snow; color: var(--php-light);}
+    75% { background-color: var(--php-light); color: var(--php-dark)}
+}
+*/
+
+.error-msg {
+    color: red;
+    font-size: large;
+    margin: 1rem 0;
+    max-width: fit-content;
+    overflow: hidden;
 }

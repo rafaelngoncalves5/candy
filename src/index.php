@@ -15,6 +15,22 @@ Xampp não faz sentido.
 // Sumonando o banco de dados antes de qualquer coisa
 include 'db.php';
 
+session_start();
+
+// Condicional padrão, pra deslogar usuário a cada 1 hora
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
+    session_unset();
+    session_destroy();
+}
+
+// Se fizermos um método post pra essa página (no caso logout é o único aceito), finalizamos a sessão de usuário
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (!empty($_SESSION) && $_SESSION['is_logged']) {
+        session_unset();
+        session_destroy();
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -37,13 +53,39 @@ include 'db.php';
 <html>
 
 <body>
-    <h1>BEHOLD THE MIGHTY
-        <br />
-        <?= "<strong class='title' style='color: var(--php-dark)'>PHP!</strong>"; ?>
-    </h1>
+    <main>
+        <div class="header">
+            <h1>BEHOLD THE MIGHTY</h1>
 
-    <!-- Aqui vem os formulários, amigo -->
-    ...
+            <?= "<h2 class='title' style='color: var(--php-dark)'><a href='/'>PHP!</a></h2>"; ?>
+
+            <!-- Session stuff -->
+            <?php
+            // Se o usuário estiver logado:
+            if (!empty($_SESSION['username']) && $_SESSION['is_logged']) {
+                echo "<p>Olá {$_SESSION['username']}</p>";
+                echo "<form style='background: none; box-shadow: none; max-width: fit-content;border: none; color: none;' method='post' action='index.php'><button class='primary-btn' type='submit' name='logout'>Logout</button></form>";
+            }
+            ?>
+
+            <p>List of pages:</p>
+        </div>
+
+        <ul>
+            <li>
+                <a href="./auth/register.php">Register -> Register a new user <strong>(FR-01)</strong></a>
+            </li>
+
+            <li>
+                <a href="./auth/login.php">Register -> Login an user <strong>(FR-02)</strong></a>
+            </li>
+
+            <!-- Horizontal rule for each new link -->
+            <hr />
+
+        </ul>
+    </main>
+
 </body>
 
 </html>
