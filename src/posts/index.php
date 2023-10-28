@@ -1,9 +1,28 @@
 <?php
 
 require '../db.php';
+require '../vs.php';
+
+$post_id = 0;
 
 // Safe query
 $posts = $db->query('SELECT * FROM posts ORDER BY -created_at')->fetch_all(MYSQLI_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = verify_session();
+    $post_id = $_POST['post_id'];
+
+    if (isset($_SESSION)) {
+        $user_id = $db->query("SELECT id FROM users WHERE username = '{$username}'")->fetch_column(0);
+
+        // Cria uma nova tabela users_posts
+        $db->query("INSERT INTO users_posts(user_id, post_id) VALUES ($user_id, $post_id)");
+        // Incrementa o contador do post em questão
+        $db->query("UPDATE posts SET likes_counter = likes_counter + 1 WHERE id = $post_id");
+        
+        $post_id = 0;
+    }
+}
 
 ?>
 
@@ -43,23 +62,36 @@ $posts = $db->query('SELECT * FROM posts ORDER BY -created_at')->fetch_all(MYSQL
                 echo "<ul>";
                 foreach ($post as $key => $value):
                     // Formatando
-                    if ($key == "title") printf("<li><strong>%s - <span style='color: var(--php-dark);'>%s</span></strong></li>", ucfirst($key), $value);
+                    if ($key == "title")
+                        printf("<li><strong>%s - <span style='color: var(--php-dark);'>%s</span></strong></li>", ucfirst($key), $value);
                     if ($key == "user_id") {
                         $user_email = $db->query("SELECT email FROM users WHERE id = '{$value}'")->fetch_column(0);
                         echo "<li><strong>Posted by - </strong>$user_email</li>";
-                    };
-                    if ($key == "body") echo "<label><strong>Body - </strong></label><textarea readonly>$value</textarea>";
-                    if ($key == "created_at") echo "<li><strong>Created at - </strong>$value</li>";
-                    if ($key == "likes_counter") echo "<li><strong>💗$value</strong></li>";
+                    }
+                    ;
+                    if ($key == "body")
+                        echo "<label><strong>Body - </strong></label><textarea readonly>$value</textarea>";
+                    if ($key == "created_at")
+                        echo "<li><strong>Created at - </strong>$value</li>";
+                    if ($key == "likes_counter") {
+                        echo
+                            "<li><form style='border:none;padding:none;box-shadow:none;' method='post' action='./index.php'><input type='hidden' name='post_id' value={$post['id']}></input><strong><button type='submit' style='background: none;
+                            color: inherit;
+                            border: none;
+                            padding: 0;
+                            font: inherit;
+                            cursor: pointer;
+                            outline: inherit;'>💗$value</strong></button></form></li>";
+                    }
                     # printf("<li><strong>%s - </strong>%s</li>", ucfirst($key), $value); ?>
                 <?php endforeach; ?>
-                <!-- Buttons -->
-                
 
                 <?= "</ul>"; ?>
             <?php endforeach; ?>
 
         </div>
+
+        <?= "<h1>O post_id está em => $post_id</h1>"; ?>
 
     </main>
 
