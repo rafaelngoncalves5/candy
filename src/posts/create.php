@@ -1,26 +1,39 @@
 <?php
 
 require '../db.php';
+require '../vs.php';
 
-$username = "";
-
-session_start();
-
-// Protected route script:
-if (isset($_SESSION) && isset($_SESSION["username"]) && $_SESSION['is_logged']) {
-    $username = $_SESSION['username'];
-} else {
-    header('location:../auth/login.php');
-}
+// Retorna falso ou um username
+$username = verify_session();
 
 // Formulary variables
 $title = "";
-$body = '';
+$body = "";
 
 // Prosseguimos com o post:
-#...
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $title = $_REQUEST['title'];
+    $body = $_REQUEST['body'];
+    
+    if (isset($username) && gettype($username) === 'string') {
+        // Pega o id de usuário no bd
+        $user_id = $db->query("SELECT * FROM users WHERE username = '{$username}'")->fetch_column(0);
+        
+        // Não validarei os dados por preguiça
+        $query = $db->prepare("INSERT INTO posts(title, body, user_id) VALUES (?, ?, ?)");
 
-?>
+        $query->bind_param('sss', $title, $body, $user_id);
+        $query->execute();
+        // Após criar um post, redirecione para index dos posts
+        header('location:./index.php');
+        
+    } else {
+        header('location:../auth/login.php');
+    }
+}
+
+;?>
 
 <!DOCTYPE html>
 
@@ -57,27 +70,23 @@ $body = '';
 
             <!-- Title -->
             <label for='title'>Title:</label>
-            <input name='title' value='<?=$title;?>' id='title'></input>
+            <input placeholder='Estou pensando em...' minlength=3 name='title' value='<?= $title; ?>'
+                id='title'></input>
 
             <!-- Body -->
             <label for='body'>Body:</label>
-            <input name='body' value='<?=$body;?>' id='body'></input>
+            <input placeholder="Fui ao parque na semana passada, tive uma surpresa quando..." minlength=3 name='body'
+                value='<?= $body; ?>' id='body'></input>
 
             <!-- Created at is defined in the db's instance by default with 'now()' -->
-            
+
             <!-- User id comes from session -->
 
             <!-- Liked is defined in the db's instance by default with '0' -->
 
             <button type='submit' class='primary-btn'>Submit</button>
 
-        </form> 
-
-        <h1>
-            <?= print_r($_REQUEST);?>
-        </h1>
-
-
+        </form>
     </main>
 
 </body>
