@@ -82,7 +82,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <a href="./auth/login.php">Register -> Login an user <strong>(FR-02)</strong></a>
             </li>
 
-            <!-- Horizontal rule for each new link -->
+            <li>
+                <a href="./posts/index.php">Posts (index) -> Index of the posts with a feed of them <strong>(RF-09)</strong></a>
+            </li>
+
+            <li>
+                <a href="./posts/create.php">Posts (creation) -> Form to create the posts <strong>[PROTECTED] (RF-04)</strong></a>
+            </li>
+
             <hr />
 
         </ul>
