@@ -3,7 +3,7 @@
 require '../db.php';
 
 // Safe query
-$posts = $db->query('SELECT * FROM posts ORDER BY created_at')->fetch_all(MYSQLI_ASSOC);
+$posts = $db->query('SELECT * FROM posts ORDER BY -created_at')->fetch_all(MYSQLI_ASSOC);
 
 ?>
 
@@ -42,8 +42,20 @@ $posts = $db->query('SELECT * FROM posts ORDER BY created_at')->fetch_all(MYSQLI
                 # Início da tag
                 echo "<ul>";
                 foreach ($post as $key => $value):
-                    echo "<li><strong>$key</strong> - $value</li>"; ?>
+                    // Formatando
+                    if ($key == "title") printf("<li><strong>%s - <span style='color: var(--php-dark);'>%s</span></strong></li>", ucfirst($key), $value);
+                    if ($key == "user_id") {
+                        $user_email = $db->query("SELECT email FROM users WHERE id = '{$value}'")->fetch_column(0);
+                        echo "<li><strong>Posted by - </strong>$user_email</li>";
+                    };
+                    if ($key == "body") echo "<label><strong>Body - </strong></label><textarea readonly>$value</textarea>";
+                    if ($key == "created_at") echo "<li><strong>Created at - </strong>$value</li>";
+                    if ($key == "likes_counter") echo "<li><strong>💗$value</strong></li>";
+                    # printf("<li><strong>%s - </strong>%s</li>", ucfirst($key), $value); ?>
                 <?php endforeach; ?>
+                <!-- Buttons -->
+                
+
                 <?= "</ul>"; ?>
             <?php endforeach; ?>
 
