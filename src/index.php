@@ -21,6 +21,8 @@ session_start();
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
     session_unset();
     session_destroy();
+} else {
+    $_SESSION['LAST_ACTIVITY'] = time();
 }
 
 // Se fizermos um método post pra essa página (no caso logout é o único aceito), finalizamos a sessão de usuário
