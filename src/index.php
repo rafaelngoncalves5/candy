@@ -90,6 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <a href="./posts/create.php">Posts (creation) -> Form to create the posts <strong>[PROTECTED] (RF-04)</strong></a>
             </li>
 
+            <li>
+                <a href="./posts/my-posts.php">My Posts (update and deletion) -> Updates and deletes your posts <strong>[PROTECTED] (RF-05, RF-07)</strong></a>
+            </li>
+
             <hr />
 
         </ul>

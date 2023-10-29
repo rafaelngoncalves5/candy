@@ -19,8 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db->query("INSERT INTO users_posts(user_id, post_id) VALUES ($user_id, $post_id)");
         // Incrementa o contador do post em questão
         $db->query("UPDATE posts SET likes_counter = likes_counter + 1 WHERE id = $post_id");
-        
-        $post_id = 0;
+
+        // Necessário dar reload para limpar os dados de formulário
+        header('location:./index.php');
     }
 }
 
@@ -60,7 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php foreach ($posts as $post):
                 # Início da tag
                 echo "<ul>";
+                echo "<form style='border:none;padding:none;box-shadow:none;' method='post' action='./index.php'>";
                 foreach ($post as $key => $value):
+                    if ($key === 'id')
+                        echo "<input type='hidden' name='post_id' value=$value></input>";
                     // Formatando
                     if ($key == "title")
                         printf("<li><strong>%s - <span style='color: var(--php-dark);'>%s</span></strong></li>", ucfirst($key), $value);
@@ -75,23 +79,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         echo "<li><strong>Created at - </strong>$value</li>";
                     if ($key == "likes_counter") {
                         echo
-                            "<li><form style='border:none;padding:none;box-shadow:none;' method='post' action='./index.php'><input type='hidden' name='post_id' value={$post['id']}></input><strong><button type='submit' style='background: none;
-                            color: inherit;
-                            border: none;
-                            padding: 0;
-                            font: inherit;
-                            cursor: pointer;
-                            outline: inherit;'>💗$value</strong></button></form></li>";
+                            "<li><button type='submit' style='border: none;cursor:pointer;background:inherit;'><strong>💗$value</strong></button></li>";
                     }
                     # printf("<li><strong>%s - </strong>%s</li>", ucfirst($key), $value); ?>
                 <?php endforeach; ?>
-
+                <?= "</form>"; ?>
                 <?= "</ul>"; ?>
             <?php endforeach; ?>
 
         </div>
-
-        <?= "<h1>O post_id está em => $post_id</h1>"; ?>
 
     </main>
 
