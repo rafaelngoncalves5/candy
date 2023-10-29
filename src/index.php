@@ -14,6 +14,7 @@ Xampp não faz sentido.
 
 // Sumonando o banco de dados antes de qualquer coisa
 include 'db.php';
+include 'vs.php';
 
 session_start();
 
@@ -98,9 +99,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </li>
 
             <li>
-                <a href="./posts/upload-handler.php">File upload -> Uploads an image to a post
+                <a href="./posts/upload-handler.php">File upload -> Uploads an image
                     <strong>[PROTECTED] RF-10)</strong></a>
             </li>
+
+            <?php
+            $username = verify_session();
+
+            if (isset($_SESSION) && isset($username)) {
+                $query = $db->prepare('SELECT is_admin FROM users WHERE username = ?');
+                $query->bind_param('s', $username);
+                $query->execute();
+                $is_admin = $query->get_result()->fetch_column(0);
+                
+                // Se o usuário for admin
+                if ($is_admin == 1) {
+                    echo "<li><a href='./admin.php'>Edit an user -> <strong>[PROTECTED][ADMIN] (RF-08)</strong></a></li>";
+                }
+            }
+            ;?>
 
             <hr />
 
