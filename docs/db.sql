@@ -29,5 +29,8 @@ CREATE TABLE `users_posts` (
 
 ALTER TABLE `posts` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
+-- Later added
+ALTER TABLE posts ADD picture TEXT;
+
 -- Clean
 DROP DATABASE database_name;
