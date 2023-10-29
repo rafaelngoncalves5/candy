@@ -83,15 +83,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </li>
 
             <li>
-                <a href="./posts/index.php">Posts (index) -> Index of the posts with a feed of them <strong>(RF-09)</strong></a>
+                <a href="./posts/index.php">Posts (index) -> Index of the posts with a feed of them
+                    <strong>(RF-09)</strong></a>
             </li>
 
             <li>
-                <a href="./posts/create.php">Posts (creation) -> Form to create the posts <strong>[PROTECTED] (RF-04)</strong></a>
+                <a href="./posts/create.php">Posts (creation) -> Form to create the posts <strong>[PROTECTED]
+                        (RF-04)</strong></a>
             </li>
 
             <li>
-                <a href="./posts/my-posts.php">My Posts (update and deletion) -> Updates and deletes your posts <strong>[PROTECTED] (RF-05, RF-07)</strong></a>
+                <a href="./posts/my-posts.php">My Posts (update and deletion) -> Updates and deletes your posts
+                    <strong>[PROTECTED] (RF-05, RF-07)</strong></a>
+            </li>
+
+            <li>
+                <a href="./posts/upload-handler.php">File upload -> Uploads an image to a post
+                    <strong>[PROTECTED] RF-10)</strong></a>
             </li>
 
             <hr />
